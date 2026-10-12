@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = withDefaults(
     defineProps<{
@@ -12,6 +12,13 @@ const props = withDefaults(
 );
 
 const visible = ref(true);
+
+watch(
+    () => props.message,
+    (newVal) => {
+        if (newVal) visible.value = true;
+    }
+);
 
 function dismiss() {
     visible.value = false;

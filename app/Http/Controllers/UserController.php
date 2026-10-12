@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -17,7 +18,7 @@ class UserController extends Controller
             ->take(50)
             ->get();
 
-        return view('users', ['users' => $users]);
+        return Inertia::render('Users/Index', ['users' => $users]);
     }
 
     /**
@@ -55,7 +56,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        return Inertia::render('Users/Edit', compact('user'));
     }
 
     /**

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AppointmentController extends Controller
 {
@@ -17,7 +19,12 @@ class AppointmentController extends Controller
             ->take(50)
             ->get();
 
-        return view('appointments', ['appointments' => $appointments]);
+        $users = User::orderBy('name')->get(['id', 'name', 'email']);
+
+        return Inertia::render('Appointments/Index', [
+            'appointments' => $appointments,
+            'users' => $users,
+        ]);
     }
 
     /**
@@ -57,7 +64,9 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
-        return view('appointments.edit', compact('appointment'));
+        return Inertia::render('Appointments/Edit', [
+            'appointment' => $appointment->load('user'),
+        ]);
     }
 
     /**
