@@ -13,8 +13,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all()
-        ->take(50);
+        $users = User::orderByDesc('created_at')
+            ->take(50)
+            ->get();
 
         return view('users', ['users' => $users]);
     }
@@ -35,7 +36,7 @@ class UserController extends Controller
         User::create([
             'name' => $request['name'],
             'email' => $request['email'],
-            'password' => Crypt::encryptString($request['password'])
+            'password' => Crypt::encryptString($request['password']),
         ]);
 
         return redirect('users')->with('success', 'Usuario creado!');
@@ -52,24 +53,45 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return view('users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['nullable', 'string', 'max:255'],
+            'email' => ['nullable', 'email', 'max:255', 'unique:users,email,'.$user->id],
+            'password' => ['nullable', 'string', 'min:8'],
+        ]);
+
+        if (empty($validated['name'])) {
+            unset($validated['name']);
+        }
+
+        if (empty($validated['email'])) {
+            unset($validated['email']);
+        }
+
+        if (empty($validated['password'])) {
+            unset($validated['password']);
+        }
+
+        $user->update($validated);
+
+        return redirect('users')->with('success', 'Usuario editado!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect('users')->with('success', 'Usuario eliminado!');
     }
 }

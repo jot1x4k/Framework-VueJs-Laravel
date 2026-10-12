@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <x-header />
     <main>
         <h1>Citas medicas</h1>
         <section class="appointment-form">
@@ -18,7 +19,7 @@
                 @csrf <!-- Token automatico-->
                 <div class="field">
                     <label for="user_id">ID del paciente</label>
-                    <input type="text" name="user_id" required/>
+                    <input type="text" name="user_id" required />
                 </div>
                 <div class="field">
                     <label for="reason">Motivo de consulta</label>
@@ -26,7 +27,7 @@
                 </div>
                 <div class="field">
                     <label for="date">Fecha</label>
-                    <input type="datetime-local" name="date" required/>
+                    <input type="datetime-local" name="date" required />
                 </div>
 
                 <button type="submit">Agendar cita</button>
@@ -50,6 +51,17 @@
                         <strong>Fecha:</strong>
                         {{ $appointment->date }}
                     </p>
+                    <a href="/appointments/{{ $appointment->id }}/edit" class="button">
+                        Editar
+                    </a>
+
+                    <form metho="POST">
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Seguro que desea eliminar esta cita?')"
+                            class="btn-delete">
+                            Eliminar
+                        </button>
+                    </form>
                 </article>
             @empty
                 <div class="empty">

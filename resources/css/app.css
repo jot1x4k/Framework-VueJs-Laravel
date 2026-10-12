@@ -16,7 +16,11 @@
 }
 
 body {
-    font-family: Inter, system-ui, -apple-system, sans-serif;
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        sans-serif;
     background: var(--background);
     color: var(--text);
     padding: 40px 20px;
@@ -42,31 +46,36 @@ h2 {
     margin-bottom: 28px;
 }
 
-.appointment-list {
+.appointment-list,
+.users-list {
     display: grid;
     gap: 16px;
 }
 
-.appointment {
+.appointment,
+.user {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 24px;
 }
 
-.appointment h3 {
+.appointment h3,
+.user h3 {
     font-size: 1.05rem;
     font-weight: 600;
     margin-bottom: 8px;
 }
 
-.appointment p {
+.appointment p,
+.user p {
     color: var(--muted);
     font-size: 0.95rem;
     margin-top: 4px;
 }
 
-.appointment strong {
+.appointment strong,
+.user strong {
     color: var(--text);
 }
 
@@ -91,4 +100,56 @@ h2 {
     .appointment {
         padding: 18px;
     }
+}
+
+.navbar {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    margin: 0;
+    padding: 2rem;
+}
+
+.navbar .nav-links a {
+    text-decoration: none !important;
+}
+
+.nav-title h2 {
+    margin: 0 !important;
+}
+
+input {
+    border-radius: 5px;
+    border: transparent;
+    outline: 1px solid #64748b;
+    padding: 0.25rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+button, .button {
+    border: transparent;
+    border-radius: 5px;
+    background-color: #4739e8;
+    color: #ffffff;
+    padding: 0.25rem;
+    text-decoration: none;
+}
+
+.btn-delete {
+    background-color: #e84b39 !important;
+}
+
+.appointment-form,
+.user-form {
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
 }

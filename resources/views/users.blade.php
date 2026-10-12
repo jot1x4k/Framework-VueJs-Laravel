@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <x-header />
     <main>
         <h1>Usuarios</h1>
         <section class="user-form">
@@ -45,10 +46,23 @@
                         <strong>Fecha de registro:</strong>
                         {{ $user->created_at }}
                     </p>
+                    <a href="/users/{{ $user->id }}/edit" class="button">
+                        Editar
+                    </a>
+
+                    <form method="POST" action="/users/{{ $user->id }}" onsubmit="return confirm('Seguro que deseas eliminar este usuario?')">
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit"
+                            class="btn-delete">
+                            Eliminar
+                        </button>
+                    </form>
                 </article>
             @empty
                 <div class="empty">
-                    No hay citas agendadas.
+                    No hay usuarios registrados.
                 </div>
             @endforelse
         </section>
