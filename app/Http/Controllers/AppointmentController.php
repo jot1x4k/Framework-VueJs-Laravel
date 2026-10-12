@@ -40,7 +40,7 @@ class AppointmentController extends Controller
             'date' => $request['date']
         ]);
 
-        return redirect('/')->with('succes', 'Cita agendada!');
+        return redirect('/appointments')->with('succes', 'Cita agendada!');
     }
 
     /**

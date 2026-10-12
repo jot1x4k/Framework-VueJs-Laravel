@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class UserController extends Controller
 {
@@ -11,24 +13,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = [
-            [
-                'name' => 'Juan',
-                'age' => 25
-            ],
+        $users = User::all()
+        ->take(50);
 
-            [
-                'name' => 'Sara',
-                'age' => 27
-            ],
-
-            [
-                'name' => 'Sebastian',
-                'age' => 18
-            ]
-        ];
-
-        return view('home', ['users' => $users]);
+        return view('users', ['users' => $users]);
     }
 
     /**
@@ -44,7 +32,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Crypt::encryptString($request['password'])
+        ]);
+
+        return redirect('users')->with('success', 'Usuario creado!');
     }
 
     /**

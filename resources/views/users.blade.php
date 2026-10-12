@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lista de usuarios</title>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+
+<body>
+    <main>
+        <h1>Usuarios</h1>
+        <section class="user-form">
+            <h1>Crear Usuario</h1>
+            <form method="POST" action="/users">
+                @csrf <!-- Token automatico-->
+                <div class="field">
+                    <label for="name">Nombre completo</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="field">
+                    <label for="name">Correo electronico</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="field">
+                    <label for="name">Contraseña</label>
+                    <input type="password" name="password" required>
+                </div>
+
+                <button type="submit">+ Crear usuario</button>
+            </form>
+        </section>
+        <section class="users-list">
+            <h1>Listado de Usuarios</h1>
+            @forelse ($users as $user)
+                <article class="user">
+                    <h3>Nombre: {{ $user->name }}</h3>
+                    <p>
+                        <strong>Correo electronico:</strong>
+                        {{ $user->email }}
+                    </p>
+                    <p>
+                        <strong>Fecha de registro:</strong>
+                        {{ $user->created_at }}
+                    </p>
+                </article>
+            @empty
+                <div class="empty">
+                    No hay citas agendadas.
+                </div>
+            @endforelse
+        </section>
+    </main>
+</body>
+
+</html>
