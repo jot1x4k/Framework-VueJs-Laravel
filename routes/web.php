@@ -4,6 +4,8 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', [UserController::class, 'index'])->name('home');
+
 Route::get('/users', [UserController::class, 'index']);
 Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{user}/edit', [UserController::class, 'edit']);

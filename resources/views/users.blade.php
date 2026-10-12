@@ -4,69 +4,46 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Usuarios</title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.ts'])
 </head>
 
 <body>
-    <x-header />
-    <main>
-        <h1>Usuarios</h1>
-        <section class="user-form">
-            <h1>Crear Usuario</h1>
-            <form method="POST" action="/users">
-                @csrf <!-- Token automatico-->
-                <div class="field">
-                    <label for="name">Nombre completo</label>
-                    <input type="text" name="name" required>
-                </div>
-                <div class="field">
-                    <label for="name">Correo electronico</label>
-                    <input type="email" name="email" required>
-                </div>
-                <div class="field">
-                    <label for="name">Contraseña</label>
-                    <input type="password" name="password" required>
-                </div>
+    <div id="app">
+        <x-header />
+        <main>
+            <h1>Usuarios</h1>
 
-                <button type="submit">+ Crear usuario</button>
-            </form>
-        </section>
-        <section class="users-list">
-            <h1>Listado de Usuarios</h1>
-            @forelse ($users as $user)
-                <article class="user">
-                    <h3>Nombre: {{ $user->name }}</h3>
-                    <p>
-                        <strong>Correo electronico:</strong>
-                        {{ $user->email }}
-                    </p>
-                    <p>
-                        <strong>Fecha de registro:</strong>
-                        {{ $user->created_at }}
-                    </p>
-                    <a href="/users/{{ $user->id }}/edit" class="button">
-                        Editar
-                    </a>
+            @if (session('success'))
+                <flash-alert message="{{ session('success') }}" type="success"></flash-alert>
+            @endif
 
-                    <form method="POST" action="/users/{{ $user->id }}" onsubmit="return confirm('Seguro que desea eliminar este usuario?')">
-                        @csrf
-                        @method('DELETE')
+            <section class="user-form">
+                <h1>Crear Usuario</h1>
+                <form method="POST" action="/users">
+                    @csrf
+                    <div class="field">
+                        <label for="name">Nombre completo</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="field">
+                        <label for="email">Correo electronico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="field">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
 
-                        <button type="submit"
-                            class="btn-delete">
-                            Eliminar
-                        </button>
-                    </form>
-                </article>
-            @empty
-                <div class="empty">
-                    No hay usuarios registrados.
-                </div>
-            @endforelse
-        </section>
-    </main>
+                    <button type="submit">+ Crear usuario</button>
+                </form>
+            </section>
+
+            <users-list :initial-users='@json($users)' csrf-token="{{ csrf_token() }}"></users-list>
+        </main>
+    </div>
 </body>
 
 </html>
