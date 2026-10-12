@@ -18,7 +18,7 @@ class AppointmentController extends Controller
         ->take(50)
         ->get();
 
-        return view('home', ['appointments' => $appointments]);
+        return view('appointments', ['appointments' => $appointments]);
     }
 
     /**
