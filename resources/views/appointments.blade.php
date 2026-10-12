@@ -55,9 +55,9 @@
                         Editar
                     </a>
 
-                    <form metho="POST">
+                    <form method="POST" action="/appointments/{{ $appointment->id }}" onsubmit="return confirm('Seguro que desea eliminar esta cita medica?')">
                         @method('DELETE')
-                        <button type="submit" onclick="return confirm('Seguro que desea eliminar esta cita?')"
+                        <button type="submit"
                             class="btn-delete">
                             Eliminar
                         </button>

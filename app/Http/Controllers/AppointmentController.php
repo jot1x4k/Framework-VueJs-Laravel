@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
-use DateTime;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -14,9 +13,9 @@ class AppointmentController extends Controller
     public function index()
     {
         $appointments = Appointment::with('user')
-        ->latest()
-        ->take(50)
-        ->get();
+            ->latest()
+            ->take(50)
+            ->get();
 
         return view('appointments', ['appointments' => $appointments]);
     }
@@ -34,13 +33,15 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        Appointment::create([
-            'user_id' => $request['user_id'],
-            'reason' => $request['reason'],
-            'date' => $request['date']
+        $validated = $request->validate([
+            'user_id' => ['required', 'exists:users,id'],
+            'reason' => ['required', 'string', 'max:255'],
+            'date' => ['required', 'date'],
         ]);
 
-        return redirect('/appointments')->with('succes', 'Cita agendada!');
+        Appointment::create($validated);
+
+        return redirect('appointments')->with('succes', 'Cita agendada!');
     }
 
     /**
@@ -56,7 +57,7 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
-        //
+        return view('appointments.edit', compact('appointment'));
     }
 
     /**
@@ -64,7 +65,22 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, Appointment $appointment)
     {
-        //
+        $validated = $request->validate([
+            'reason' => ['nullable', 'string', 'max:255'],
+            'date' => ['nullable', 'date'],
+        ]);
+
+        if (empty($validated['reason'])) {
+            unset($validated['reason']);
+        }
+
+        if (empty($validated['date'])) {
+            unset($validated['date']);
+        }
+
+        $appointment->update($validated);
+
+        return redirect('appointments')->with('succes', 'Cita medica editada!');
     }
 
     /**
@@ -72,6 +88,7 @@ class AppointmentController extends Controller
      */
     public function destroy(Appointment $appointment)
     {
-        //
+        $appointment->delete();
+        return redirect('appointments')->with('succes', 'Cita medica eliminada!');
     }
 }

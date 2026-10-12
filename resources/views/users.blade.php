@@ -50,7 +50,7 @@
                         Editar
                     </a>
 
-                    <form method="POST" action="/users/{{ $user->id }}" onsubmit="return confirm('Seguro que deseas eliminar este usuario?')">
+                    <form method="POST" action="/users/{{ $user->id }}" onsubmit="return confirm('Seguro que desea eliminar este usuario?')">
                         @csrf
                         @method('DELETE')
 

@@ -12,4 +12,8 @@ Route::delete('/users/{user}', [UserController::class, 'destroy']);
 
 Route::get('/appointments', [AppointmentController::class, 'index']);
 Route::post('/appointments', [AppointmentController::class, 'store']);
+Route::get('/appointments/{appointment}/edit', [AppointmentController::class, 'edit']);
+Route::put('/appointments/{appointment}', [AppointmentController::class, 'update']);
+Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy']);
+
 
